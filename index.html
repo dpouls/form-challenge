@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=PT+Sans&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap");
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        font-family: "PT Sans", sans-serif;
+      }
+      #page-container {
+        box-shadow: 2px 2px 5px rgb(185, 185, 185);
+        background-color: #f1f2f3;
+        width: 100%;
+      }
+      header {
+        width: 100%;
+        height: 10vh;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 3px 3px 5px rgb(187, 187, 187);
+        display: flex;
+        justify-content: center;
+      }
+
+      #form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+      }
+      #info-form {
+        min-width: 375px;
+        width: 80%;
+        height: 40vh;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 10px;
+        box-sizing: border-box;
+        padding: 20px 0;
+        box-shadow: 1px 1px 5px rgb(179, 179, 179);
+      }
+      #enter-info-text {
+        width: 100%;
+        font-size: 24pt;
+        font-size: xx-large;
+        color: #4a71b0;
+        font-weight: bold;
+        text-align: center;
+        margin: 0;
+      }
+      #input-container {
+        height: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid #e0e3e7;
+      }
+      label {
+        width: 350px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin: 5px 0;
+      }
+      span {
+        font-size: medium;
+        font-family: "Raleway", sans-serif;
+        color: #898989;
+      }
+      input {
+        width: 200px;
+        padding: 0;
+        margin-left: 5px;
+        border: 1px solid #e0e3e7;
+        border-radius: 5px;
+        color: #4b5057;
+        padding: 1px 6px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 500;
+      }
+      #btn-container {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0px 40px 30px 0;
+      }
+      #submit-btn {
+        width: 100px;
+        border-radius: 15px;
+        color: white;
+        padding: 5px;
+        background-color: #a1c55b;
+        border: 1px solid #66a54a;
+        box-shadow: 1px 2px #717a5e;
+
+        font-weight: bold;
+      }
+      #submit-btn:disabled {
+        background-color: #edf0ed;
+        border: 1px solid #e0e7e1;
+        box-shadow: 1px 3px #d9e2db;
+      }
+
+      @media screen and (min-width: 1000px) {
+        #page-container {
+          max-width: 1000px;
+        }
+      }
+      @media screen and (max-width: 500px) {
+        #info-form {
+          width: 100%;
+          height: 60%;
+        }
+      }
+      @media screen and (max-width: 350px) {
+        #info-form {
+          width: 100%;
+          height: 80%;
+        }
+        #enter-info-text {
+          font-size: x-large;
+        }
+        label {
+          width: 100%;
+        }
+        input {
+          width: 40%;
+          /* margin: 0 auto; */
+          margin-right: 10%;
+        }
+      }
+    </style>
+  </head>
+  <body onload="setMaxDate()">
+    <main id="page-container">
+      <header>
+        <img src="logo.png" alt="W3C * SVG logo" height="51px" width="189px" />
+      </header>
+      <div id="form-container">
+        <form onsubmit="onSubmit()" id="info-form" name="infoForm">
+          <p onclick="validateForm()" id="enter-info-text">
+            Please enter the following information
+          </p>
+          <div id="input-container">
+            <label class="input-label">
+              <span>ssn (last 4) xxx-xx-</span>
+              <input
+                value=""
+                id="ssn-input"
+                name="ssnInput"
+                title="Four numbers required."
+                maxlength="4"
+                type="text"
+                required
+                pattern="[0-9]{4}"
+              />
+            </label>
+            <label class="input-label">
+              <span>date of birth</span>
+              <input
+                value="default"
+                min="1900-01-01"
+                maxlength="8"
+                name="dobInput"
+                id="dob-input"
+                type="date"
+                title="Please correct the date of birth."
+                required
+              />
+            </label>
+          </div>
+          <label id="btn-container">
+            <button id="submit-btn" value="Publish" disabled>SUBMIT</button>
+          </label>
+        </form>
+      </div>
+    </main>
+  </body>
+  <script>
+    function setMaxDate() {
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth() + 1; //January is 0!
+      var yyyy = today.getFullYear();
+      if (dd < 10) {
+        dd = "0" + dd;
+      }
+      if (mm < 10) {
+        mm = "0" + mm;
+      }
+
+      today = yyyy + "-" + mm + "-" + dd;
+      document.getElementById("dob-input").setAttribute("max", today);
+    }
+    function validateForm() {
+      var x = document.forms["info-form"]["ssnInput"].value;
+      var y = document.forms["info-form"]["dobInput"].value;
+      if (x !== "" && y !== "") {
+        document.getElementById("submit-btn").disabled = false;
+      } else {
+        document.getElementById("submit-btn").disabled = true;
+      }
+    }
+    function onSubmit() {
+      var ssn = document.getElementById("ssn-input").value;
+      var dob = (y = document.forms["info-form"]["dobInput"].value);
+      alert(`Last 4 of ssn entered: ${ssn} \n Date of Birth Entered: ${dob}`);
+    }
+    document
+      .getElementById("dob-input")
+      .addEventListener("blur", () => validateForm());
+    document
+      .getElementById("ssn-input")
+      .addEventListener("blur", () => validateForm());
+  </script>
+</html>
